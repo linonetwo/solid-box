@@ -52,14 +52,23 @@
     "react/sort-comp": [
       "error",
       {
-        "order": ["type-annotations", "static-methods", "lifecycle", "everything-else", "render"]
+        "order": [
+          "type-annotations",
+          "static-methods",
+          "lifecycle",
+          "everything-else",
+          "render"
+        ]
       }
     ],
     "react/no-multi-comp": "off",
     "no-restricted-syntax": "off",
     "max-len": "off",
     "react/jsx-no-bind": "off",
-    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".js", ".jsx"] }
+    ],
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
