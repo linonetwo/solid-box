@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-export default function InstallMkcert(props) {
+export default function InstallMkcert() {
   const [mkcertState, setMkcertState] = useState("unchecked");
   useEffect(() => {
     // call api defined in app/electron/preload.js
     window.ipc.installPackageMessage("check-mkcert");
-    console.log('aaa');
-    
+    console.log("aaa");
   }, []);
   useEffect(() => {
     const listener = (event, args) => {
@@ -14,6 +13,8 @@ export default function InstallMkcert(props) {
         setMkcertState("mkcert already installed");
       } else if (args === "mkcert-not-installed") {
         setMkcertState("mkcert not installed");
+      } else if (args === "mkcert-install-failed") {
+        setMkcertState("mkcert install failed");
       }
     };
     window.ipc.listenInstallPackage(listener);
@@ -28,6 +29,7 @@ export default function InstallMkcert(props) {
           Click Button To Install MKCERT
           <br />
           <button
+            type="button"
             onClick={() => {
               window.ipc.installPackageMessage("install-mkcert");
             }}
