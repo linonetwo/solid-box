@@ -1,202 +1,220 @@
-const { app, Menu, MenuItem, BrowserWindow } = require("electron");
+const { app, Menu, MenuItem, BrowserWindow } = require('electron');
 
-const isMac = process.platform === "darwin";
+const isMac = process.platform === 'darwin';
 
-const MenuBuilder = function (mainWindow) {
+const MenuBuilder = function(mainWindow) {
+  const setupDevelopmentEnvironment = function() {
+    mainWindow.webContents.on('context-menu', (e, props) => {
+      const { x, y } = props;
 
-  const setupDevelopmentEnvironment = function () {
-    mainWindow.webContents.on("context-menu", (e, props) => {
-      const {
-        x,
-        y,
-      } = props;
-
-      Menu.buildFromTemplate([{
-        label: "Inspect element",
-        click: () => {
-          mainWindow.inspectElement(x, y);
-        },
-      }]).popup(mainWindow);
+      Menu.buildFromTemplate([
+        {
+          label: 'Inspect element',
+          click: () => {
+            mainWindow.inspectElement(x, y);
+          }
+        }
+      ]).popup(mainWindow);
     });
-  }
+  };
 
   // https://electronjs.org/docs/api/menu#main-process
   const defaultTemplate = function() {
     return [
       // { role: "appMenu" }
-      ...(isMac ? [{
-        label: app.name,
-        submenu: [{
-            role: "about",
-          },
-          {
-            type: "separator",
-          },
-          {
-            role: "services",
-          },
-          {
-            type: "separator",
-          },
-          {
-            role: "hide",
-          },
-          {
-            role: "hideothers",
-          },
-          {
-            role: "unhide",
-          },
-          {
-            type: "separator",
-          },
-          {
-            role: "quit",
-          },
-        ],
-      }] : []),
+      ...(isMac
+        ? [
+            {
+              label: app.name,
+              submenu: [
+                {
+                  role: 'about'
+                },
+                {
+                  type: 'separator'
+                },
+                {
+                  role: 'services'
+                },
+                {
+                  type: 'separator'
+                },
+                {
+                  role: 'hide'
+                },
+                {
+                  role: 'hideothers'
+                },
+                {
+                  role: 'unhide'
+                },
+                {
+                  type: 'separator'
+                },
+                {
+                  role: 'quit'
+                }
+              ]
+            }
+          ]
+        : []),
       // { role: "fileMenu" }
       {
-        label: "File",
+        label: 'File',
         submenu: [
-          isMac ? {
-            role: "close",
-          } : {
-            role: "quit",
-          },
-        ],
+          isMac
+            ? {
+                role: 'close'
+              }
+            : {
+                role: 'quit'
+              }
+        ]
       },
       // { role: "editMenu" }
       {
-        label: "Edit",
-        submenu: [{
-            role: "undo",
+        label: 'Edit',
+        submenu: [
+          {
+            role: 'undo'
           },
           {
-            role: "redo",
+            role: 'redo'
           },
           {
-            type: "separator",
+            type: 'separator'
           },
           {
-            role: "cut",
+            role: 'cut'
           },
           {
-            role: "copy",
+            role: 'copy'
           },
           {
-            role: "paste",
+            role: 'paste'
           },
-          ...(isMac ? [{
-              role: "pasteAndMatchStyle",
-            },
-            {
-              role: "delete",
-            },
-            {
-              role: "selectAll",
-            },
-            {
-              type: "separator",
-            },
-            {
-              label: "Speech",
-              submenu: [{
-                  role: "startspeaking",
+          ...(isMac
+            ? [
+                {
+                  role: 'pasteAndMatchStyle'
                 },
                 {
-                  role: "stopspeaking",
+                  role: 'delete'
                 },
-              ],
-            },
-          ] : [{
-              role: "delete",
-            },
-            {
-              type: "separator",
-            },
-            {
-              role: "selectAll",
-            },
-          ]),
-        ],
+                {
+                  role: 'selectAll'
+                },
+                {
+                  type: 'separator'
+                },
+                {
+                  label: 'Speech',
+                  submenu: [
+                    {
+                      role: 'startspeaking'
+                    },
+                    {
+                      role: 'stopspeaking'
+                    }
+                  ]
+                }
+              ]
+            : [
+                {
+                  role: 'delete'
+                },
+                {
+                  type: 'separator'
+                },
+                {
+                  role: 'selectAll'
+                }
+              ])
+        ]
       },
       // { role: "viewMenu" }
       {
-        label: "View",
-        submenu: [{
-            role: "reload",
+        label: 'View',
+        submenu: [
+          {
+            role: 'reload'
           },
           {
-            role: "forcereload",
+            role: 'forcereload'
           },
           {
-            role: "toggledevtools",
+            role: 'toggledevtools'
           },
           {
-            type: "separator",
+            type: 'separator'
           },
           {
-            role: "resetzoom",
+            role: 'resetzoom'
           },
           {
-            role: "zoomin",
+            role: 'zoomin'
           },
           {
-            role: "zoomout",
+            role: 'zoomout'
           },
           {
-            type: "separator",
+            type: 'separator'
           },
           {
-            role: "togglefullscreen",
-          },
-        ],
+            role: 'togglefullscreen'
+          }
+        ]
       },
       // { role: "windowMenu" }
       {
-        label: "Window",
-        submenu: [{
-            role: "minimize",
+        label: 'Window',
+        submenu: [
+          {
+            role: 'minimize'
           },
           {
-            role: "zoom",
+            role: 'zoom'
           },
-          ...(isMac ? [{
-              type: "separator",
-            },
-            {
-              role: "front",
-            },
-            {
-              type: "separator",
-            },
-            {
-              role: "window",
-            },
-          ] : [{
-            role: "close",
-          }]),
-        ],
+          ...(isMac
+            ? [
+                {
+                  type: 'separator'
+                },
+                {
+                  role: 'front'
+                },
+                {
+                  type: 'separator'
+                },
+                {
+                  role: 'window'
+                }
+              ]
+            : [
+                {
+                  role: 'close'
+                }
+              ])
+        ]
       },
       {
-        role: "help",
-        submenu: [{
-          label: "Learn More",
-          click: async () => {
-            const {
-              shell,
-            } = require("electron")
-            await shell.openExternal("https://electronjs.org")
-          },
-        }],
-      },
-    ]
-  }
+        role: 'help',
+        submenu: [
+          {
+            label: 'Learn More',
+            click: async () => {
+              const { shell } = require('electron');
+              await shell.openExternal('https://electronjs.org');
+            }
+          }
+        ]
+      }
+    ];
+  };
 
   return {
-    buildMenu () {
-      if (process.env.NODE_ENV === "development") {
+    buildMenu() {
+      if (process.env.NODE_ENV === 'development') {
         setupDevelopmentEnvironment();
       }
 
@@ -204,8 +222,8 @@ const MenuBuilder = function (mainWindow) {
       Menu.setApplicationMenu(menu);
 
       return menu;
-    },
-  }
-}
+    }
+  };
+};
 
 module.exports = MenuBuilder;

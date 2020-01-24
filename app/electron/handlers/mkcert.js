@@ -21,19 +21,22 @@ ipcMain.on('install-packages', async (event, arg) => {
       const retries = 3;
       if (systemType === 'darwin') {
         // https://github.com/FiloSottile/mkcert#macos
-        shell.exec('HOMEBREW_NO_AUTO_UPDATE=1 brew install mkcert', (returnCode, stdout, stderr) => {
-          if (stderr) {
-            event.reply('install-packages-progress', stderr);
+        shell.exec(
+          'HOMEBREW_NO_AUTO_UPDATE=1 brew install mkcert',
+          (returnCode, stdout, stderr) => {
+            if (stderr) {
+              event.reply('install-packages-progress', stderr);
+            }
+            event.reply('install-packages-progress', stdout);
+            if (returnCode === 0) {
+              shell.echo('Mkcert Successfully Installed');
+              event.reply('install-packages', 'mkcert-installed');
+            } else {
+              shell.echo('Mkcert Install Failed');
+              event.reply('install-packages', 'mkcert-install-failed');
+            }
           }
-          event.reply('install-packages-progress', stdout);
-          if (returnCode === 0) {
-            shell.echo('Mkcert Successfully Installed');
-            event.reply('install-packages', 'mkcert-installed');
-          } else {
-            shell.echo('Mkcert Install Failed');
-            event.reply('install-packages', 'mkcert-install-failed');
-          }
-        });
+        );
       } else if (systemType === 'linux') {
         // TODO: detect more package managers https://unix.stackexchange.com/questions/46081/identifying-the-system-package-manager
         // https://github.com/FiloSottile/mkcert#linux
