@@ -1,8 +1,8 @@
-import React from "react";
-import { Switch, Route } from "react-router";
-import ROUTES from "Constants/routes";
-import Welcome from "Pages/welcome/welcome";
-import Main from "Pages/main/main";
+import React from 'react';
+import { Switch, Route } from 'react-router';
+import ROUTES from 'Constants/routes';
+import Welcome from 'Pages/welcome/welcome';
+import Main from 'Pages/main/main';
 
 class Routes extends React.Component {
   render() {
