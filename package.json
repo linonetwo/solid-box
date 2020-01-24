@@ -91,6 +91,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "1.2.3",
     "connected-react-router": "6.6.1",
+    "fix-path": "^2.1.0",
     "i18next": "19.0.3",
     "i18next-electron-fs-backend": "1.0.2",
     "lodash.merge": "4.6.2",

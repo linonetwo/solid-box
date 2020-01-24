@@ -3,6 +3,10 @@ const { app, protocol, BrowserWindow, session, ipcMain } = require('electron');
 const i18nextBackend = require('i18next-electron-fs-backend');
 const path = require('path');
 const fs = require('fs');
+const fixPath = require('fix-path');
+
+fixPath();
+
 const Protocol = require('./protocol');
 const MenuBuilder = require('./menu');
 require('./handlers');
@@ -20,7 +24,7 @@ const installExtensions = async () => {
   const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
 
   return Promise.all(
-    extensions.map(name => installer.default(installer[name], forceDownload))
+    extensions.map(name => installer.default(installer[name], forceDownload)),
   ).catch(console.log);
 };
 
@@ -50,8 +54,8 @@ async function createWindow() {
       nodeIntegrationInSubFrames: false,
       contextIsolation: true,
       enableRemoteModule: false,
-      preload: path.join(__dirname, 'preload.js')
-    }
+      preload: path.join(__dirname, 'preload.js'),
+    },
   });
 
   // Sets up main.js bindings for our i18next backend
@@ -90,7 +94,7 @@ async function createWindow() {
         callback(true); // Approve permission request
       } else {
         console.error(
-          `The application tried to request permission for '${permission}'. This permission was not whitelisted and has been blocked.`
+          `The application tried to request permission for '${permission}'. This permission was not whitelisted and has been blocked.`,
         );
 
         callback(false); // Deny
@@ -119,8 +123,8 @@ async function createWindow() {
 protocol.registerSchemesAsPrivileged([
   {
     scheme: Protocol.scheme,
-    privileges: { standard: true, secure: true }
-  }
+    privileges: { standard: true, secure: true },
+  },
 ]);
 
 // This method will be called when Electron has finished
@@ -154,7 +158,7 @@ app.on('web-contents-created', (event, contents) => {
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
-        `The application tried to redirect to the following address: '${parsedUrl}'. This origin is not whitelisted and the attempt to navigate was blocked.`
+        `The application tried to redirect to the following address: '${parsedUrl}'. This origin is not whitelisted and the attempt to navigate was blocked.`,
       );
 
       event.preventDefault();
@@ -168,7 +172,7 @@ app.on('web-contents-created', (event, contents) => {
     // Log and prevent the app from redirecting to a new page
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
-        `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`
+        `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`,
       );
 
       event.preventDefault();
@@ -189,7 +193,7 @@ app.on('web-contents-created', (event, contents) => {
   contents.on('new-window', async (event, navigationUrl) => {
     // Log and prevent opening up a new window
     console.error(
-      `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`
+      `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`,
     );
 
     event.preventDefault();

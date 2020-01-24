@@ -16,7 +16,7 @@ class Main extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  home: state.home
+  home: state.home,
 });
 const mapDispatch = { changeMessage };
 

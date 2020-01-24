@@ -7,7 +7,7 @@ export const history = createHashHistory();
 
 const store = configureStore({
   reducer: rootReducer(history),
-  middleware: [...getDefaultMiddleware(), routerMiddleware(history)]
+  middleware: [...getDefaultMiddleware(), routerMiddleware(history)],
 });
 
 export default store;

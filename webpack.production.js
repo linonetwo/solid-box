@@ -10,7 +10,7 @@ module.exports = merge(base, {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'app/src/index-prod.html'),
-      filename: 'index-prod.html'
+      filename: 'index-prod.html',
     }),
     new CspHtmlWebpackPlugin({
       'base-uri': ["'self'"],
@@ -18,7 +18,7 @@ module.exports = merge(base, {
       'script-src': ["'self'"],
       'style-src': ["'self'"],
       'frame-src': ["'none'"],
-      'worker-src': ["'none'"]
-    })
-  ]
+      'worker-src': ["'none'"],
+    }),
+  ],
 });

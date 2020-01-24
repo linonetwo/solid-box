@@ -15,13 +15,13 @@ module.exports = merge(base, {
     contentBase: path.resolve(__dirname, 'app/dist'), // Where we serve the local dev server's files from
     watchContentBase: true, // Watch the content base for changes
     watchOptions: {
-      ignored: /node_modules/ // Ignore this path, probably not needed since we define contentBase above
-    }
+      ignored: /node_modules/, // Ignore this path, probably not needed since we define contentBase above
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'app/src/index.html'),
-      filename: 'index.html'
+      filename: 'index.html',
     }),
     new CspHtmlWebpackPlugin({
       'base-uri': ["'self'"],
@@ -29,7 +29,7 @@ module.exports = merge(base, {
       'script-src': ["'self'"],
       'style-src': ["'self'"],
       'frame-src': ["'none'"],
-      'worker-src': ["'none'"]
-    })
-  ]
+      'worker-src': ["'none'"],
+    }),
+  ],
 });

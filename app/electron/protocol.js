@@ -35,7 +35,7 @@ const mimeTypes = {
   '.ico': 'image/vnd.microsoft.icon',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
-  '.map': 'text/plain'
+  '.map': 'text/plain',
 };
 
 function charset(mimeType) {
@@ -62,7 +62,7 @@ function requestHandler(req, next) {
       next({
         mimeType,
         charset: charset(mimeType),
-        data
+        data,
       });
     } else {
       console.error(err);
@@ -72,5 +72,5 @@ function requestHandler(req, next) {
 
 module.exports = {
   scheme,
-  requestHandler
+  requestHandler,
 };

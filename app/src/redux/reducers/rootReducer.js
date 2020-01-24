@@ -5,7 +5,7 @@ import homeReducer from '../components/home/homeSlice';
 const createRootReducer = history =>
   combineReducers({
     router: connectRouter(history),
-    home: homeReducer
+    home: homeReducer,
   });
 
 export default createRootReducer;

@@ -11,5 +11,5 @@ ReactDOM.render(
       <Root store={store} history={history}></Root>
     </Suspense>
   </I18nextProvider>,
-  document.getElementById('target')
+  document.getElementById('target'),
 );
