@@ -4,9 +4,11 @@ SoLiD desktop app, start a SoLiD POD on your local environment.
 
 ## TODO
 
-### Install Mkcert
+### Install Mkcert In Windows and Linux
 
 require password
+
+Handled in `app/electron/handlers/mkcert.js`
 
 ### Start Server
 
