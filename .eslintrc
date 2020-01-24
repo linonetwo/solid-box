@@ -22,7 +22,16 @@
     "jest/globals": true
   },
   "rules": {
-    "comma-dangle": 1,
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "always-multiline"
+      }
+    ],
     "arrow-parens": ["off"],
     "consistent-return": "off",
     "react/destructuring-assignment": "off",

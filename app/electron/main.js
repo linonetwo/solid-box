@@ -1,3 +1,4 @@
+/* eslint-disable global-require, no-param-reassign */
 const {
   app,
   protocol,
