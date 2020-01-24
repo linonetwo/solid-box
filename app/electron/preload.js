@@ -11,3 +11,11 @@ contextBridge.exposeInMainWorld(
         i18nextElectronBackend: i18nextBackend.preloadBindings(ipcRenderer)
     }
 );
+
+// send messages to app/electron/handlers
+contextBridge.exposeInMainWorld(
+    "ipc", {
+        installMkcert: () => ipcRenderer.send("install-packages", "mkcert")
+    }
+);
+

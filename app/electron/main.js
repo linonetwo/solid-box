@@ -7,6 +7,7 @@ const {
 } = require("electron");
 const Protocol = require("./protocol");
 const MenuBuilder = require("./menu");
+require('./handlers');
 const i18nextBackend = require("i18next-electron-fs-backend");
 const path = require("path");
 const fs = require("fs");
