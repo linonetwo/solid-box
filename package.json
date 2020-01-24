@@ -1,26 +1,26 @@
 {
-  "name": "secure-electron-template",
+  "name": "solid-box",
   "version": "1.0.0",
-  "description": "The best way to build Electron apps with security in mind.",
+  "description": "SoLiD desktop app, start a SoLiD POD on your local environment.",
   "private": true,
   "main": "app/electron/main.js",
   "scripts": {
-    "postinstall": "electron-builder install-app-deps",
-    "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
-    "open-local": "opener http://localhost:40992",
-    "dev-slim": "concurrently \"npm run dev-server\" \"npm run open-local\"",
     "dev": "concurrently \"npm run dev-server\" \"cross-env NODE_ENV=development electron .\"",
+    "dist": "npm run prod-build && electron-builder",
+    "open-local": "opener http://localhost:40992",
+    "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
+    "dev-slim": "concurrently \"npm run dev-server\" \"npm run open-local\"",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
     "prod": "npm run prod-build && electron .",
     "pack": "electron-builder --dir",
-    "dist": "npm run prod-build && electron-builder",
     "dist-mac": "npm run prod-build && electron-builder --mac",
     "dist-linux": "npm run prod-build && electron-builder --linux",
     "dist-windows": "npm run prod-build && electron-builder --windows",
-    "dist-all": "npm run prod-build && electron-builder --mac --linux --windows"
+    "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
+    "postinstall": "electron-builder install-app-deps"
   },
   "build": {
-    "productName": "YourProductName",
+    "productName": "SoLiDBox",
     "appId": "com.yourcompany|electron.yourproductname",
     "directories": {
       "buildResources": "resources"
@@ -42,15 +42,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reZach/secure-electron-template.git"
+    "url": "git+https://github.com/linonetwo/solid-box.git"
   },
   "keywords": [],
-  "author": "reZach",
+  "author": "Lin Onetwo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/reZach/secure-electron-template/issues"
+    "url": "https://github.com/linonetwo/solid-box/issues"
   },
-  "homepage": "https://github.com/reZach/secure-electron-template#readme",
+  "homepage": "https://github.com/linonetwo/solid-box#readme",
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/plugin-transform-react-jsx": "^7.8.3",
