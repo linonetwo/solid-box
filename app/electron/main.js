@@ -3,14 +3,15 @@ const {
   protocol,
   BrowserWindow,
   session,
-  ipcMain
+  ipcMain,
 } = require("electron");
-const Protocol = require("./protocol");
-const MenuBuilder = require("./menu");
-require('./handlers');
 const i18nextBackend = require("i18next-electron-fs-backend");
 const path = require("path");
 const fs = require("fs");
+const Protocol = require("./protocol");
+const MenuBuilder = require("./menu");
+require('./handlers');
+
 const isDev = process.env.NODE_ENV === "development";
 const port = 40992; // Hardcoded; needs to match webpack.development.js and package.json
 const selfHost = `http://localhost:${port}`;
@@ -24,7 +25,7 @@ const installExtensions = async () => {
   const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"];
 
   return Promise.all(
-    extensions.map(name => installer.default(installer[name], forceDownload))
+    extensions.map(name => installer.default(installer[name], forceDownload)),
   ).catch(console.log);
 };
 
@@ -55,8 +56,8 @@ async function createWindow() {
       nodeIntegrationInSubFrames: false,
       contextIsolation: true,
       enableRemoteModule: false,
-      preload: path.join(__dirname, "preload.js")
-    }
+      preload: path.join(__dirname, "preload.js"),
+    },
   });
 
   // Sets up main.js bindings for our i18next backend
@@ -88,7 +89,7 @@ async function createWindow() {
   const partition = "default";
   ses.fromPartition(partition).setPermissionRequestHandler((webContents, permission, callback) => {
 
-    let allowedPermissions = []; // Full list here: https://developer.chrome.com/extensions/declare_permissions#manifest
+    const allowedPermissions = []; // Full list here: https://developer.chrome.com/extensions/declare_permissions#manifest
 
     if (allowedPermissions.includes(permission)) {
       callback(true); // Approve permission request
@@ -120,7 +121,7 @@ async function createWindow() {
 // https://electronjs.org/docs/api/protocol#protocolregisterschemesasprivilegedcustomschemes
 protocol.registerSchemesAsPrivileged([{
   scheme: Protocol.scheme,
-  privileges: { standard: true, secure: true }
+  privileges: { standard: true, secure: true },
 }]);
 
 // This method will be called when Electron has finished
@@ -156,7 +157,7 @@ app.on("web-contents-created", (event, contents) => {
       console.error(`The application tried to redirect to the following address: '${parsedUrl}'. This origin is not whitelisted and the attempt to navigate was blocked.`);
 
       event.preventDefault();
-      return;
+      
     }
   });
 
@@ -169,7 +170,7 @@ app.on("web-contents-created", (event, contents) => {
       console.error(`The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`);
 
       event.preventDefault();
-      return;
+      
     }
   });
 
@@ -190,7 +191,7 @@ app.on("web-contents-created", (event, contents) => {
     console.error(`The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`);
 
     event.preventDefault();
-    return;
+    
   });
 });
 

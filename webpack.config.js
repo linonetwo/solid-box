@@ -12,44 +12,44 @@ module.exports = {
       // loads .html files
         test: /\.(html)$/,
         include: [
-          path.resolve(__dirname, "app/src")
+          path.resolve(__dirname, "app/src"),
         ],
         use: {
           loader: "html-loader",
           options: {
-            attrs: [":data-src"]
-          }
-        }
+            attrs: [":data-src"],
+          },
+        },
       },
       // loads .js/jsx files
       {
         test: /\.jsx?$/,
         include: [
-          path.resolve(__dirname, "app/src")
+          path.resolve(__dirname, "app/src"),
         ],
         loader: "babel-loader",
         resolve: {
-          extensions: [".js", ".jsx", ".json"]
-        }
+          extensions: [".js", ".jsx", ".json"],
+        },
       },
       // loads .css files
       {
         test: /\.css$/,
         include: [
-          path.resolve(__dirname, "app/src")
+          path.resolve(__dirname, "app/src"),
         ],
         use: [
           {
-            loader: "style-loader"
+            loader: "style-loader",
           },
           {
-            loader: "css-loader"
-          }
+            loader: "css-loader",
+          },
         ],
         resolve: {
-          extensions: [".css"]
-        }
-      }
-    ]
-  }
+          extensions: [".css"],
+        },
+      },
+    ],
+  },
 }
