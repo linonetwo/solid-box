@@ -91,6 +91,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "1.2.3",
     "connected-react-router": "6.6.1",
+    "express": "^4.17.1",
     "fix-path": "^2.1.0",
     "i18next": "19.0.3",
     "i18next-electron-fs-backend": "1.0.2",
@@ -103,6 +104,7 @@
     "react-router-dom": "5.1.2",
     "redux": "4.0.5",
     "retriable-download": "3.0.0",
-    "shelljs": "0.8.3"
+    "shelljs": "0.8.3",
+    "solid-server": "^5.2.2"
   }
 }

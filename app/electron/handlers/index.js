@@ -1,1 +1,2 @@
 require('./mkcert');
+require('./solid');

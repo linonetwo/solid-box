@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('api', {
 
 // send messages to app/electron/handlers
 contextBridge.exposeInMainWorld('ipc', {
+  // mkcert
   installPackageMessage: message =>
     ipcRenderer.send('install-packages', message),
   listenInstallPackageProgress: listener =>
@@ -19,4 +20,11 @@ contextBridge.exposeInMainWorld('ipc', {
     ipcRenderer.on('install-packages', listener),
   unListenInstallPackage: listener =>
     ipcRenderer.removeListener('install-packages', listener),
+    // solid
+  startSolidMessage: message =>
+    ipcRenderer.send('start-server', message),
+  listenSolid: listener =>
+    ipcRenderer.on('solid-progress', listener),
+  unListenSolid: listener =>
+    ipcRenderer.removeListener('solid-progress', listener),
 });
