@@ -14,6 +14,14 @@ export default function StartSoLiD() {
 
   return (
     <div>
+      <button
+        type="button"
+        onClick={() => {
+          window.ipc.startSolidMessage('generate-keys');
+        }}
+      >
+        Generate Keys
+      </button>
       <div>{solidState}</div>
       {solidState === 'solid not running' && (
         <div>
@@ -23,7 +31,7 @@ export default function StartSoLiD() {
             type="button"
             onClick={() => {
               setSolidState('solid starting');
-              window.ipc.startSolidMessage();
+              window.ipc.startSolidMessage('solid-server');
             }}
           >
             Start SoLiD Server

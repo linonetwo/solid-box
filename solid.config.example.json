@@ -6,7 +6,7 @@
   "sslCert": "../keys/localhost+2.pem",
   "multiuser": true,
   "enforceToc": false,
-  "trustedOrigins": ["https://localhost"],
+  "trustedOrigins": [],
   "disablePasswordChecks": false,
   "supportEmail": "",
   "server": {
