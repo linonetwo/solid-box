@@ -9,7 +9,7 @@ const { exec } = require('child_process');
 
 const solidDefaultSettings = require('../../../solid.config.example.json');
 
-const port = 8443;
+const port = 50110; // SoliD 501i0
 const serverDataFolderPath = path.join(app.getPath('appData'), 'solid-box');
 const keyFolder = path.join(serverDataFolderPath, 'keys');
 
@@ -28,6 +28,8 @@ ipcMain.on('start-server', async (event, args) => {
   } else if (args === 'solid-server') {
     server = solid.createServer({
       ...solidDefaultSettings,
+      port,
+      serverUri: `https://localhost:${port}`,
       dbPath: path.join(serverDataFolderPath, '.db'),
       configPath: path.join(serverDataFolderPath, 'config'),
       sslKey: path.join(keyFolder, 'localhost+2-key.pem'),
