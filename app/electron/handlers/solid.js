@@ -7,11 +7,13 @@ const sslRootCAs = require('ssl-root-cas/latest');
 const https = require('https');
 const { exec } = require('child_process');
 
+const sudo = require('sudo-prompt');
+const Hosts = require('hosts-so-easy').default;
+
+const { iconPath, serverDataFolderPath, keyFolder, DEFAULT_HOSTS, tempFolderPath } = require('../constants');
 const solidDefaultSettings = require('../../../solid.config.example.json');
 
 const port = 50110; // SoliD 501i0
-const serverDataFolderPath = path.join(app.getPath('appData'), 'solid-box');
-const keyFolder = path.join(serverDataFolderPath, 'keys');
 
 let server;
 ipcMain.on('start-server', async (event, args) => {
@@ -55,6 +57,23 @@ ipcMain.on('start-server', async (event, args) => {
 
     app.on('before-quit', () => {
       server.close();
+    });
+  } else if (args === 'add-hosts') {
+    shell.mkdir('-p', tempFolderPath);
+    shell.cp(DEFAULT_HOSTS, tempFolderPath);
+    const tempHostsPath = path.join(tempFolderPath, 'hosts');
+    const hosts = new Hosts({
+      hostsFile: tempHostsPath,
+    });
+    hosts.add('127.0.0.1', 'solidbox.localhost');
+    await hosts.updateFinish();
+    const options = {
+      name: 'Electron',
+      icns: iconPath,
+    };
+    sudo.exec(`mv ${tempHostsPath} /etc/hosts`, options, (error, stdout) => {
+      if (error) throw error;
+      console.log(`stdout: ${stdout}`);
     });
   }
 });
