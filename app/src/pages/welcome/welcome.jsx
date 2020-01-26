@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import ROUTES from 'Constants/routes';
 import { Link } from 'react-router-dom';
 
-import Mkcert from '../../components/Mkcert';
-import Solid from '../../components/Solid';
-import Hosts from '../../components/Hosts';
+import Mkcert from '../../components/handlers/Mkcert';
+import Solid from '../../components/handlers/Solid';
+import Hosts from '../../components/handlers/Hosts';
 
 class Welcome extends React.Component {
   render() {

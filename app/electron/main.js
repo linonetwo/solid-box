@@ -53,6 +53,7 @@ async function createWindow() {
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
       contextIsolation: true,
+      webviewTag: true,
       enableRemoteModule: false,
       preload: path.join(__dirname, 'preload.js'),
     },

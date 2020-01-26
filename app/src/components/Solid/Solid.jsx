@@ -6,6 +6,7 @@ class Detail extends React.Component {
     const { t } = this.props;
     return (
       <div>
+        <webview id="solid" src="https://localhost:50110/" allowpopups />
         {t('found')}
         {t('pickle')}
       </div>
