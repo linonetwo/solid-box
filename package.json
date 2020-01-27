@@ -59,7 +59,7 @@
     "connected-react-router": "6.6.1",
     "fix-path": "2.1.0",
     "hosts-so-easy": "1.2.8",
-    "i18next": "19.0.3",
+    "i18next": "19.1.0",
     "i18next-electron-fs-backend": "1.1.0",
     "lodash.merge": "4.6.2",
     "react": "16.12.0",
