@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useInterval } from '@react-corekit/use-interval';
-import Button from "@kiwicom/orbit-components/lib/Button"
+import Button from '@kiwicom/orbit-components/lib/Button';
+import Card, { CardSection } from '@kiwicom/orbit-components/lib/Card';
 
 import { solidHost } from '../../constants/solid';
 
@@ -12,6 +13,8 @@ export default function StartSoLiD() {
         setSolidState('solid started');
       } else if (args === 'solid-not-started') {
         setSolidState('solid not running');
+      } else if (args === 'no-key') {
+        setSolidState('please generate keys first');
       }
     };
     window.ipc.listenSolid(listener);
@@ -23,22 +26,14 @@ export default function StartSoLiD() {
   }, 100);
 
   return (
-    <div>
-      <Button
-        type="button"
-        onClick={() => {
-          window.ipc.startSolidMessage('generate-keys');
-        }}
-      >
-        Generate Keys
-      </Button>
-      <div>{solidState}</div>
-      {solidState === 'solid not running' && (
-        <div>
-          Click Button To Start SoLiD Server
-          <br />
+    <Card header="SoLiD Server" spaceAfter="normal">
+      <CardSection>
+        <div>{solidState}</div>
+      </CardSection>
+      <CardSection>
+        {solidState === 'solid not running' && (
           <Button
-            type="button"
+            type="primary"
             onClick={() => {
               setSolidState('solid starting');
               window.ipc.startSolidMessage('solid-server');
@@ -46,13 +41,13 @@ export default function StartSoLiD() {
           >
             Start SoLiD Server
           </Button>
-        </div>
-      )}
-      {solidState === 'solid started' && (
-        <div>
-          <a href={solidHost}>Click me to go to the SoLiD Panel.</a>
-        </div>
-      )}
-    </div>
+        )}
+        {solidState === 'solid started' && (
+          <a href={solidHost}>
+            <Button type="primary">Open SoLiD Panel</Button>
+          </a>
+        )}
+      </CardSection>
+    </Card>
   );
 }

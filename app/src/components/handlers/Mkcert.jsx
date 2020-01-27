@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import Button from '@kiwicom/orbit-components/lib/Button';
+import Card, { CardSection } from '@kiwicom/orbit-components/lib/Card';
+import Text from '@kiwicom/orbit-components/lib/Text';
 
 export default function InstallMkcert() {
   const [mkcertState, setMkcertState] = useState('unchecked');
@@ -37,24 +40,37 @@ export default function InstallMkcert() {
   }, []);
 
   return (
-    <div>
-      <div>{mkcertState}</div>
-      <div>{mkcertProgressState}</div>
-      {mkcertState === 'mkcert not installed' && (
-        <div>
-          Click Button To Install MKCERT
-          <br />
-          <button
-            type="button"
-            onClick={() => {
-              setMkcertState('mkcert installing');
-              window.ipc.installPackageMessage('install-mkcert');
-            }}
-          >
-            Install MKCERT
-          </button>
-        </div>
-      )}
-    </div>
+    <Card
+      title="MKCERT"
+      description="Mkcert is required to generate keys for https."
+      spaceAfter="normal"
+    >
+      <CardSection>
+        <Text>{mkcertProgressState}</Text>
+        <Text>{mkcertState}</Text>
+      </CardSection>
+      <CardSection>
+        <Button
+          disabled={mkcertState !== 'mkcert not installed'}
+          type="primary"
+          onClick={() => {
+            setMkcertState('mkcert installing');
+            window.ipc.installPackageMessage('install-mkcert');
+          }}
+        >
+          Install MKCERT
+        </Button>
+      </CardSection>
+      <CardSection>
+        <Button
+          type="primary"
+          onClick={() => {
+            window.ipc.startSolidMessage('generate-keys');
+          }}
+        >
+          Generate Keys
+        </Button>
+      </CardSection>
+    </Card>
   );
 }

@@ -6,13 +6,20 @@ const shell = require('shelljs');
 const sslRootCAs = require('ssl-root-cas/latest');
 const https = require('https');
 const { exec } = require('child_process');
+const fs = require('fs').promises;
 
 const sudo = require('sudo-prompt');
 const Hosts = require('hosts-so-easy').default;
 
-const { iconPath, serverDataFolderPath, keyFolder, DEFAULT_HOSTS, tempFolderPath, solidPort, solidHost } = require('../constants');
+const {
+  iconPath,
+  serverDataFolderPath,
+  keyFolder,
+  DEFAULT_HOSTS,
+  tempFolderPath,
+} = require('../constants');
+const { solidPort, solidHost } = require('../../src/constants/solid');
 const solidDefaultSettings = require('../../../solid.config.example.json');
-
 
 let server;
 ipcMain.on('start-server', async (event, args) => {
@@ -75,6 +82,12 @@ ipcMain.on('start-server', async (event, args) => {
       console.log(`stdout: ${stdout}`);
     });
   } else if (args === 'check') {
+    try {
+      await fs.stat(keyFolder);
+    } catch (error) {
+      event.reply('solid-progress', 'no-key');
+      return;
+    }
     try {
       await fetch(solidHost);
       event.reply('solid-progress', 'solid-started');
