@@ -1,11 +1,12 @@
 const { app, Menu, shell } = require('electron');
-const i18nBackend = require("i18next-electron-fs-backend");
-const whitelist = require("../localization/whitelist");
+const i18nBackend = require('i18next-electron-fs-backend');
+const whitelist = require('../localization/whitelist');
 const {
   isDev,
   isMac,
   selfHost,
   serverDataFolderPath,
+  DEFAULT_HOSTS,
 } = require('./constants');
 const { solidHost } = require('../src/constants/solid');
 const Protocol = require('./protocol');
@@ -39,30 +40,6 @@ function MenuBuilder(mainWindow) {
                   role: 'about',
                 },
                 {
-                  label: 'Settings',
-                  click: (menuItem, browserWindow) => {
-                    if (isDev) {
-                      browserWindow.loadURL(selfHost);
-                    } else {
-                      browserWindow.loadURL(
-                        `${Protocol.scheme}://rse/index-prod.html`,
-                      );
-                    }
-                  },
-                },
-                {
-                  label: 'SoLiD',
-                  click: (menuItem, browserWindow) => {
-                    browserWindow.loadURL(solidHost);
-                  },
-                },
-                {
-                  label: 'SoLiD Folder',
-                  click: () => {
-                    shell.openItem(serverDataFolderPath);
-                  },
-                },
-                {
                   type: 'separator',
                 },
                 {
@@ -90,6 +67,41 @@ function MenuBuilder(mainWindow) {
             },
           ]
         : []),
+      {
+        label: 'Open',
+        submenu: [
+          {
+            label: 'Settings',
+            click: (menuItem, browserWindow) => {
+              if (isDev) {
+                browserWindow.loadURL(selfHost);
+              } else {
+                browserWindow.loadURL(
+                  `${Protocol.scheme}://rse/index-prod.html`,
+                );
+              }
+            },
+          },
+          {
+            label: 'SoLiD',
+            click: (menuItem, browserWindow) => {
+              browserWindow.loadURL(solidHost);
+            },
+          },
+          {
+            label: 'SoLiD Folder',
+            click: () => {
+              shell.openItem(serverDataFolderPath);
+            },
+          },
+          {
+            label: 'Hosts',
+            click: () => {
+              shell.openItem(DEFAULT_HOSTS);
+            },
+          },
+        ],
+      },
       // { role: "fileMenu" }
       {
         label: 'File',
@@ -230,8 +242,8 @@ function MenuBuilder(mainWindow) {
         ],
       },
       {
-        label: "Language",
-        submenu: whitelist.buildSubmenu(i18nBackend.changeLanguageRequest)
+        label: 'Language',
+        submenu: whitelist.buildSubmenu(i18nBackend.changeLanguageRequest),
       },
       {
         role: 'help',
