@@ -19,11 +19,6 @@ exports.DEFAULT_HOSTS = isWin
   : '/etc/hosts';
 exports.tempFolderPath = path.join(app.getPath('temp'), 'solid-box');
 
-
-const solidPort = 50110; // SoliD 501i0
-exports.solidPort = solidPort;
-exports.solidHost = `https://localhost:${solidPort}`;
-
 exports.isDev = process.env.NODE_ENV === 'development';
 const appDevPort = 40992; // Hardcoded; needs to match webpack.development.js and package.json
 exports.appDevPort = appDevPort;

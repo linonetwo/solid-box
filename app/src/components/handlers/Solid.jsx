@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useInterval } from '@react-corekit/use-interval';
+import Button from "@kiwicom/orbit-components/lib/Button"
+
+import { solidHost } from '../../constants/solid';
 
 export default function StartSoLiD() {
   const [solidState, setSolidState] = useState('solid not running');
@@ -21,20 +24,20 @@ export default function StartSoLiD() {
 
   return (
     <div>
-      <button
+      <Button
         type="button"
         onClick={() => {
           window.ipc.startSolidMessage('generate-keys');
         }}
       >
         Generate Keys
-      </button>
+      </Button>
       <div>{solidState}</div>
       {solidState === 'solid not running' && (
         <div>
           Click Button To Start SoLiD Server
           <br />
-          <button
+          <Button
             type="button"
             onClick={() => {
               setSolidState('solid starting');
@@ -42,7 +45,12 @@ export default function StartSoLiD() {
             }}
           >
             Start SoLiD Server
-          </button>
+          </Button>
+        </div>
+      )}
+      {solidState === 'solid started' && (
+        <div>
+          <a href={solidHost}>Click me to go to the SoLiD Panel.</a>
         </div>
       )}
     </div>

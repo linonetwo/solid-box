@@ -13,7 +13,8 @@
           "I18n": "./app/localization"
         }
       }
-    ]
+    ],
+    "styled-components"
   ],
   "presets": ["@babel/preset-env", "react-app"]
 }

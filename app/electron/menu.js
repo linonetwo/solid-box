@@ -5,9 +5,9 @@ const {
   isDev,
   isMac,
   selfHost,
-  solidHost,
   serverDataFolderPath,
 } = require('./constants');
+const { solidHost } = require('../src/constants/solid');
 const Protocol = require('./protocol');
 
 function MenuBuilder(mainWindow) {

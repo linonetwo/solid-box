@@ -10,7 +10,8 @@ fixPath();
 const Protocol = require('./protocol');
 const MenuBuilder = require('./menu');
 require('./handlers');
-const { isDev, selfHost, solidHost } = require('./constants');
+const { isDev, selfHost } = require('./constants');
+const { solidHost } = require('../src/constants/solid');
 
 // Installs extensions useful for development;
 // https://github.com/electron-react-boilerplate/electron-react-boilerplate/blob/master/app/main.dev.js
@@ -58,7 +59,6 @@ async function createWindow() {
   // Sets up main.js bindings for our i18next backend
   i18nextBackend.mainBindings(ipcMain, win, fs);
 
-
   // Load app
   if (isDev) {
     win.loadURL(selfHost);
@@ -81,11 +81,10 @@ async function createWindow() {
   });
 
   // https://electronjs.org/docs/tutorial/security#4-handle-session-permission-requests-from-remote-content
-  const ses = session;
   const partition = 'default';
-  ses
+  session
     .fromPartition(partition)
-    .setPermissionRequestHandler((webContents, permission, callback) => {
+    .setPermissionRequestHandler((_, permission, callback) => {
       const allowedPermissions = []; // Full list here: https://developer.chrome.com/extensions/declare_permissions#manifest
 
       if (allowedPermissions.includes(permission)) {

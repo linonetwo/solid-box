@@ -13,7 +13,6 @@ export default class Settings extends React.Component {
         <Solid />
         <span>----</span>
         <Hosts />
-        <a href="https://localhost:50110">Click me to go to the SoLiD Panel.</a>
       </div>
     );
   }
