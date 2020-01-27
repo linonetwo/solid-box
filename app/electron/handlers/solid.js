@@ -1,4 +1,9 @@
-const { app, ipcMain, shell: electronShell, BrowserWindow } = require('electron');
+const {
+  app,
+  ipcMain,
+  shell: electronShell,
+  BrowserWindow,
+} = require('electron');
 const path = require('path');
 const solid = require('solid-server');
 const shell = require('shelljs');
@@ -21,11 +26,20 @@ const {
 const { solidPort, solidHost } = require('../../src/constants/solid');
 const solidDefaultSettings = require('../../../solid.config.example.json');
 
+async function getSolidHosts() {
+  const subFolders = await fs.readdir(serverDataFolderPath);
+  const solidHosts = subFolders.filter(name => name.endsWith('localhost'));
+  return solidHosts;
+}
+
 let server;
 ipcMain.on('start-server', async (event, args) => {
   if (args === 'generate-keys') {
+    const solidHosts = await getSolidHosts();
     exec(
-      `mkdir -p "${keyFolder}" && cd "${keyFolder}" && mkcert localhost solidbox.localhost 127.0.0.1`,
+      `mkdir -p "${keyFolder}" && cd "${keyFolder}" && mkcert -key-file key.pem -cert-file cert.pem ${solidHosts.join(
+        ' ',
+      )} 127.0.0.1`,
       (err, stdout, stderr) => {
         if (!err) {
           event.reply('generate-keys-succeed');
@@ -40,8 +54,8 @@ ipcMain.on('start-server', async (event, args) => {
       serverUri: solidHost,
       dbPath: path.join(serverDataFolderPath, '.db'),
       configPath: path.join(serverDataFolderPath, 'config'),
-      sslKey: path.join(keyFolder, 'localhost+2-key.pem'),
-      sslCert: path.join(keyFolder, 'localhost+2.pem'),
+      sslKey: path.join(keyFolder, 'key.pem'),
+      sslCert: path.join(keyFolder, 'cert.pem'),
       root: serverDataFolderPath,
     });
 
@@ -71,7 +85,8 @@ ipcMain.on('start-server', async (event, args) => {
     const hosts = new Hosts({
       hostsFile: tempHostsPath,
     });
-    hosts.add('127.0.0.1', 'solidbox.localhost');
+    const solidHosts = await getSolidHosts();
+    hosts.add('127.0.0.1', solidHosts);
     await hosts.updateFinish();
     const options = {
       name: 'Electron',
