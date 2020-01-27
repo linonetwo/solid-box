@@ -1,4 +1,6 @@
 const { app, Menu, shell } = require('electron');
+const i18nBackend = require("i18next-electron-fs-backend");
+const whitelist = require("../localization/whitelist");
 const {
   isDev,
   isMac,
@@ -226,6 +228,10 @@ function MenuBuilder(mainWindow) {
                 },
               ]),
         ],
+      },
+      {
+        label: "Language",
+        submenu: whitelist.buildSubmenu(i18nBackend.changeLanguageRequest)
       },
       {
         role: 'help',

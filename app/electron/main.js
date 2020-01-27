@@ -55,9 +55,9 @@ async function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
-
   // Sets up main.js bindings for our i18next backend
   i18nextBackend.mainBindings(ipcMain, win, fs);
+
 
   // Load app
   if (isDev) {
