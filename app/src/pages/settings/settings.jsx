@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import ROUTES from 'Constants/routes';
-import { Link } from 'react-router-dom';
+import React from 'react';
 
 import Mkcert from '../../components/handlers/Mkcert';
 import Solid from '../../components/handlers/Solid';
 import Hosts from '../../components/handlers/Hosts';
 
-class Welcome extends React.Component {
+export default class Settings extends React.Component {
   render() {
     return (
       <div>
@@ -15,10 +13,8 @@ class Welcome extends React.Component {
         <Solid />
         <span>----</span>
         <Hosts />
-        <Link to={ROUTES.MAIN}>Click me to go to the main page.</Link>
+        <a href="https://localhost:50110">Click me to go to the SoLiD Panel.</a>
       </div>
     );
   }
 }
-
-export default Welcome;

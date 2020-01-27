@@ -1,9 +1,15 @@
-const { app, Menu, MenuItem, BrowserWindow } = require('electron');
+const { app, Menu, shell } = require('electron');
+const {
+  isDev,
+  isMac,
+  selfHost,
+  solidHost,
+  serverDataFolderPath,
+} = require('./constants');
+const Protocol = require('./protocol');
 
-const isMac = process.platform === 'darwin';
-
-const MenuBuilder = function(mainWindow) {
-  const setupDevelopmentEnvironment = function() {
+function MenuBuilder(mainWindow) {
+  const setupDevelopmentEnvironment = () => {
     mainWindow.webContents.on('context-menu', (e, props) => {
       const { x, y } = props;
 
@@ -19,7 +25,7 @@ const MenuBuilder = function(mainWindow) {
   };
 
   // https://electronjs.org/docs/api/menu#main-process
-  const defaultTemplate = function() {
+  const defaultTemplate = () => {
     return [
       // { role: "appMenu" }
       ...(isMac
@@ -29,6 +35,30 @@ const MenuBuilder = function(mainWindow) {
               submenu: [
                 {
                   role: 'about',
+                },
+                {
+                  label: 'Settings',
+                  click: (menuItem, browserWindow) => {
+                    if (isDev) {
+                      browserWindow.loadURL(selfHost);
+                    } else {
+                      browserWindow.loadURL(
+                        `${Protocol.scheme}://rse/index-prod.html`,
+                      );
+                    }
+                  },
+                },
+                {
+                  label: 'SoLiD',
+                  click: (menuItem, browserWindow) => {
+                    browserWindow.loadURL(solidHost);
+                  },
+                },
+                {
+                  label: 'SoLiD Folder',
+                  click: () => {
+                    shell.openItem(serverDataFolderPath);
+                  },
                 },
                 {
                   type: 'separator',
@@ -203,7 +233,6 @@ const MenuBuilder = function(mainWindow) {
           {
             label: 'Learn More',
             click: async () => {
-              const { shell } = require('electron');
               await shell.openExternal('https://electronjs.org');
             },
           },
@@ -214,7 +243,7 @@ const MenuBuilder = function(mainWindow) {
 
   return {
     buildMenu() {
-      if (process.env.NODE_ENV === 'development') {
+      if (isDev) {
         setupDevelopmentEnvironment();
       }
 
@@ -224,6 +253,6 @@ const MenuBuilder = function(mainWindow) {
       return menu;
     },
   };
-};
+}
 
 module.exports = MenuBuilder;

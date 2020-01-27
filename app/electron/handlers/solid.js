@@ -10,10 +10,9 @@ const { exec } = require('child_process');
 const sudo = require('sudo-prompt');
 const Hosts = require('hosts-so-easy').default;
 
-const { iconPath, serverDataFolderPath, keyFolder, DEFAULT_HOSTS, tempFolderPath } = require('../constants');
+const { iconPath, serverDataFolderPath, keyFolder, DEFAULT_HOSTS, tempFolderPath, solidPort, solidHost } = require('../constants');
 const solidDefaultSettings = require('../../../solid.config.example.json');
 
-const port = 50110; // SoliD 501i0
 
 let server;
 ipcMain.on('start-server', async (event, args) => {
@@ -30,8 +29,8 @@ ipcMain.on('start-server', async (event, args) => {
   } else if (args === 'solid-server') {
     server = solid.createServer({
       ...solidDefaultSettings,
-      port,
-      serverUri: `https://localhost:${port}`,
+      port: solidPort,
+      serverUri: solidHost,
       dbPath: path.join(serverDataFolderPath, '.db'),
       configPath: path.join(serverDataFolderPath, 'config'),
       sslKey: path.join(keyFolder, 'localhost+2-key.pem'),
@@ -45,11 +44,11 @@ ipcMain.on('start-server', async (event, args) => {
       rootCAs.addFile(mkcertRootCAPath);
       https.globalAgent.options.ca = rootCAs;
 
-      server.listen(port, () => {
+      server.listen(solidPort, () => {
         event.reply('solid-progress', 'solid-started');
         shell.echo(
           `
-          Started SoLiD app at https://localhost:${port}
+          Started SoLiD app at ${solidHost}
           And files are stored in "${serverDataFolderPath}"`,
         );
       });

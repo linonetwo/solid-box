@@ -10,10 +10,7 @@ fixPath();
 const Protocol = require('./protocol');
 const MenuBuilder = require('./menu');
 require('./handlers');
-
-const isDev = process.env.NODE_ENV === 'development';
-const port = 40992; // Hardcoded; needs to match webpack.development.js and package.json
-const selfHost = `http://localhost:${port}`;
+const { isDev, selfHost, solidHost } = require('./constants');
 
 // Installs extensions useful for development;
 // https://github.com/electron-react-boilerplate/electron-react-boilerplate/blob/master/app/main.dev.js
@@ -151,10 +148,10 @@ app.on('activate', () => {
 });
 
 // https://electronjs.org/docs/tutorial/security#12-disable-or-limit-navigation
-app.on('web-contents-created', (event, contents) => {
+app.on('web-contents-created', (e, contents) => {
   contents.on('will-navigate', (event, navigationUrl) => {
     const parsedUrl = new URL(navigationUrl);
-    const validOrigins = [selfHost];
+    const validOrigins = [selfHost, solidHost];
 
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
@@ -166,22 +163,22 @@ app.on('web-contents-created', (event, contents) => {
     }
   });
 
-  contents.on('will-redirect', (event, navigationUrl) => {
-    const parsedUrl = new URL(navigationUrl);
-    const validOrigins = [];
+  // contents.on('will-redirect', (event, navigationUrl) => {
+  //   const parsedUrl = new URL(navigationUrl);
+  //   const validOrigins = [solidHost];
 
-    // Log and prevent the app from redirecting to a new page
-    if (!validOrigins.includes(parsedUrl.origin)) {
-      console.error(
-        `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`,
-      );
+  //   // Log and prevent the app from redirecting to a new page
+  //   if (!validOrigins.includes(parsedUrl.origin)) {
+  //     console.error(
+  //       `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`,
+  //     );
 
-      event.preventDefault();
-    }
-  });
+  //     event.preventDefault();
+  //   }
+  // });
 
   // https://electronjs.org/docs/tutorial/security#11-verify-webview-options-before-creation
-  contents.on('will-attach-webview', (event, webPreferences, params) => {
+  contents.on('will-attach-webview', (_, webPreferences) => {
     // Strip away preload scripts if unused or verify their location is legitimate
     delete webPreferences.preload;
     delete webPreferences.preloadURL;
@@ -191,35 +188,35 @@ app.on('web-contents-created', (event, contents) => {
   });
 
   // https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows
-  contents.on('new-window', async (event, navigationUrl) => {
-    // Log and prevent opening up a new window
-    console.error(
-      `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`,
-    );
+  // contents.on('new-window', async (event, navigationUrl) => {
+  //   // Log and prevent opening up a new window
+  //   console.error(
+  //     `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`,
+  //   );
 
-    event.preventDefault();
-  });
+  //   event.preventDefault();
+  // });
 });
 
 // Filter loading any module via remote;
 // you shouldn't be using remote at all, though
 // https://electronjs.org/docs/tutorial/security#16-filter-the-remote-module
-app.on('remote-require', (event, webContents, moduleName) => {
+app.on('remote-require', event => {
   event.preventDefault();
 });
 
-app.on('remote-get-builtin', (event, webContents, moduleName) => {
+app.on('remote-get-builtin', event => {
   event.preventDefault();
 });
 
-app.on('remote-get-global', (event, webContents, globalName) => {
+app.on('remote-get-global', event => {
   event.preventDefault();
 });
 
-app.on('remote-get-current-window', (event, webContents) => {
+app.on('remote-get-current-window', event => {
   event.preventDefault();
 });
 
-app.on('remote-get-current-web-contents', (event, webContents) => {
+app.on('remote-get-current-web-contents', event => {
   event.preventDefault();
 });
