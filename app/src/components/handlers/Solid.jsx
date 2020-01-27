@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useInterval } from '@react-corekit/use-interval';
 import Button from '@kiwicom/orbit-components/lib/Button';
 import Card, { CardSection } from '@kiwicom/orbit-components/lib/Card';
+import ButtonGroup from '@kiwicom/orbit-components/lib/ButtonGroup';
 
 import { solidHost } from '../../constants/solid';
 
@@ -43,9 +44,20 @@ export default function StartSoLiD() {
           </Button>
         )}
         {solidState === 'solid started' && (
-          <a href={solidHost}>
-            <Button type="primary">Open SoLiD Panel</Button>
-          </a>
+          <ButtonGroup>
+            <Button
+              type="primary"
+              onClick={() => window.ipc.startSolidMessage('open-electron')}
+            >
+              Open SoLiD Panel
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => window.ipc.startSolidMessage('open-external')}
+            >
+              Open in Browser
+            </Button>
+          </ButtonGroup>
         )}
       </CardSection>
     </Card>

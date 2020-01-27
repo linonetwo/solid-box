@@ -1,4 +1,4 @@
-const { app, ipcMain } = require('electron');
+const { app, ipcMain, shell: electronShell, BrowserWindow } = require('electron');
 const path = require('path');
 const solid = require('solid-server');
 const shell = require('shelljs');
@@ -94,5 +94,9 @@ ipcMain.on('start-server', async (event, args) => {
     } catch (error) {
       event.reply('solid-progress', 'solid-not-started');
     }
+  } else if (args === 'open-external') {
+    electronShell.openExternal(solidHost);
+  } else if (args === 'open-electron') {
+    BrowserWindow.loadURL(solidHost);
   }
 });
