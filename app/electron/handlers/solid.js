@@ -74,5 +74,12 @@ ipcMain.on('start-server', async (event, args) => {
       if (error) throw error;
       console.log(`stdout: ${stdout}`);
     });
+  } else if (args === 'check') {
+    try {
+      await fetch(solidHost);
+      event.reply('solid-progress', 'solid-started');
+    } catch (error) {
+      event.reply('solid-progress', 'solid-not-started');
+    }
   }
 });

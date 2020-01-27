@@ -52,6 +52,7 @@
   },
   "homepage": "https://github.com/linonetwo/solid-box#readme",
   "dependencies": {
+    "@react-corekit/use-interval": "^1.1.1",
     "@reduxjs/toolkit": "1.2.3",
     "connected-react-router": "6.6.1",
     "fix-path": "2.1.0",

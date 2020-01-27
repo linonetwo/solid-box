@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useInterval } from '@react-corekit/use-interval';
 
 export default function StartSoLiD() {
   const [solidState, setSolidState] = useState('solid not running');
@@ -6,11 +7,17 @@ export default function StartSoLiD() {
     const listener = (event, args) => {
       if (args === 'solid-started') {
         setSolidState('solid started');
+      } else if (args === 'solid-not-started') {
+        setSolidState('solid not running');
       }
     };
     window.ipc.listenSolid(listener);
     return () => window.ipc.unListenSolid(listener);
   }, []);
+
+  useInterval(() => {
+    window.ipc.startSolidMessage('check');
+  }, 100);
 
   return (
     <div>
