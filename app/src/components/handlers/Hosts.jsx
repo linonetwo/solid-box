@@ -1,11 +1,10 @@
 import React from 'react';
 import Button from '@kiwicom/orbit-components/lib/Button';
 import Card, { CardSection } from '@kiwicom/orbit-components/lib/Card';
-import Heading from '@kiwicom/orbit-components/lib/Heading';
 
 export default function StartSoLiD() {
   return (
-    <Card header="Hosts" spaceAfter="normal">
+    <Card title="Hosts" spaceAfter="normal" description="New subdomains need to be added to the /etc/hosts so it can be resolved. Every time after you registered a new WebID, please update the hosts.">
       <CardSection>
         <Button
           type="primary"
@@ -13,7 +12,7 @@ export default function StartSoLiD() {
             window.ipc.startSolidMessage('add-hosts');
           }}
         >
-          Add Hosts
+          Update Hosts
         </Button>
       </CardSection>
     </Card>

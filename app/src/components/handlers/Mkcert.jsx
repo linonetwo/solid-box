@@ -42,7 +42,7 @@ export default function InstallMkcert() {
   return (
     <Card
       title="MKCERT"
-      description="Mkcert is required to generate keys for https."
+      description="Mkcert is required to generate keys so our local https website can be trusted by your browser. Every time after you registered a new WebID, please regenerate the key."
       spaceAfter="normal"
     >
       <CardSection>
