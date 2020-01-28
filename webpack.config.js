@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   target: 'web', // Our app can run without electron
@@ -34,9 +35,7 @@ module.exports = {
         test: /\.css$/,
         include: [path.resolve(__dirname, 'app/src')],
         use: [
-          {
-            loader: 'style-loader',
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
           },
