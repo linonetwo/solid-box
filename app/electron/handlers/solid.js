@@ -34,6 +34,9 @@ async function getSolidHosts() {
 
 let server;
 ipcMain.on('start-server', async (event, args) => {
+  // prevent "Object has been destroyed" error, after await, win may have destroyed due to close of window
+  const reply = (...params) => event.sender.isDestroyed() ? null : event.reply(...params)
+
   if (args === 'generate-keys') {
     const solidHosts = await getSolidHosts();
     exec(
@@ -42,7 +45,7 @@ ipcMain.on('start-server', async (event, args) => {
       )} 127.0.0.1`,
       (err, stdout, stderr) => {
         if (!err) {
-          event.reply('generate-keys-succeed');
+          reply('generate-keys-succeed');
         }
         shell.echo('generate-keys', stdout, stderr);
       },
@@ -66,7 +69,7 @@ ipcMain.on('start-server', async (event, args) => {
       https.globalAgent.options.ca = rootCAs;
 
       server.listen(solidPort, () => {
-        event.reply('solid-progress', 'solid-started');
+        reply('solid-progress', 'solid-started');
         shell.echo(
           `
           Started SoLiD app at ${solidHost}
@@ -100,14 +103,14 @@ ipcMain.on('start-server', async (event, args) => {
     try {
       await fs.stat(keyFolder);
     } catch (error) {
-      event.reply('solid-progress', 'no-key');
+      reply('solid-progress', 'no-key');
       return;
     }
     try {
       await fetch(solidHost);
-      event.reply('solid-progress', 'solid-started');
+      reply('solid-progress', 'solid-started');
     } catch (error) {
-      event.reply('solid-progress', 'solid-not-started');
+      reply('solid-progress', 'solid-not-started');
     }
   } else if (args === 'open-external') {
     electronShell.openExternal(solidHost);
