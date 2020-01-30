@@ -115,6 +115,6 @@ ipcMain.on('start-server', async (event, args) => {
   } else if (args === 'open-external') {
     electronShell.openExternal(solidHost);
   } else if (args === 'open-electron') {
-    BrowserWindow.loadURL(solidHost);
+    BrowserWindow.getAllWindows()[0].loadURL(solidHost)
   }
 });
