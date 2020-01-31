@@ -20,9 +20,12 @@ export default function StartSoLiD() {
     return () => window.ipc.unListenSolid(listener);
   }, []);
 
-  useInterval(() => {
-    window.ipc.startSolidMessage('check');
-  }, 100);
+  useInterval(
+    () => {
+      window.ipc.startSolidMessage('check');
+    },
+    solidState === 'solid not running' ? 100 : 2000,
+  );
 
   return (
     <Card header="SoLiD Server" spaceAfter="normal">
