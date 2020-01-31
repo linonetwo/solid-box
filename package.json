@@ -5,11 +5,11 @@
   "private": true,
   "main": "app/electron/main.js",
   "scripts": {
-    "dev": "concurrently \"npm run dev-server\" \"cross-env NODE_ENV=development electron .\"",
+    "dev": "concurrently \"npm run dev-server\" \"cross-env NODE_ENV=development electron .\" -k",
     "dist": "npm run prod-build && electron-builder",
     "open-local": "opener http://localhost:40992",
     "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
-    "dev-slim": "concurrently \"npm run dev-server\" \"npm run open-local\"",
+    "dev-slim": "concurrently \"npm run dev-server\" \"npm run open-local\" -k",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
     "prod": "npm run prod-build && electron .",
     "pack": "electron-builder --dir",
