@@ -56,7 +56,7 @@
     "@kiwicom/orbit-components": "0.72.0",
     "@react-corekit/use-interval": "1.1.1",
     "@reduxjs/toolkit": "1.2.3",
-    "connected-react-router": "6.6.1",
+    "connected-react-router": "6.7.0",
     "fix-path": "2.1.0",
     "hosts-so-easy": "1.2.8",
     "i18next": "19.1.0",
